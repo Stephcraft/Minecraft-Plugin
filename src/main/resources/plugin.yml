@@ -1,0 +1,4 @@
+name: KoolPlugin
+version: '0'
+main: org.uocsclub.plugin.KoolPlugin
+api-version: '1.20'
