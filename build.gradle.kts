@@ -3,6 +3,9 @@
 plugins {
     kotlin("jvm") version "1.8.0"
     id("idea")
+
+    // shadow jar plugin
+    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 // dependency repositories
@@ -39,9 +42,12 @@ kotlin {
 group = "org.uocsclub"
 version = "1.0-SNAPSHOT"
 
-// auto export plugin jar to plugins/ server folder
+// shadow kotlin standard library into jar
 tasks {
-    jar {
+    shadowJar {
+        archiveClassifier.set("shadow")
+
+        // auto export plugin jar to plugins/ server folder
         doLast {
             val exportPath = project.findProperty("plugin.export") as? String
             val exportName = project.findProperty("plugin.name") as? String
@@ -59,5 +65,9 @@ tasks {
                 }
             }
         }
+    }
+
+    jar {
+        dependsOn(shadowJar)
     }
 }
